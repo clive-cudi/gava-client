@@ -3,7 +3,7 @@ import { Outlet } from 'react-router-dom';
 
 // material-ui
 import { styled, useTheme } from '@mui/material/styles';
-import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery } from '@mui/material';
+import { AppBar, Box, CssBaseline, Toolbar, useMediaQuery, Typography } from '@mui/material';
 
 // project imports
 import Breadcrumbs from 'ui-component/extended/Breadcrumbs';
@@ -16,6 +16,7 @@ import { SET_MENU } from 'store/actions';
 
 // assets
 import { IconChevronRight } from '@tabler/icons';
+import { useLoading } from 'hooks/useLoading';
 
 // styles
 const Main = styled('main', { shouldForwardProp: (prop) => prop !== 'open' })(({ theme, open }) => ({
@@ -62,10 +63,32 @@ const MainLayout = () => {
   const handleLeftDrawerToggle = () => {
     dispatch({ type: SET_MENU, opened: !leftDrawerOpened });
   };
+  const { isLoading } = useLoading();
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
+      {isLoading && (
+        <Box
+          sx={{
+            width: '80px',
+            height: '50px',
+            backgroundColor: 'white',
+            position: 'absolute',
+            zIndex: 100001,
+            boxShadow: `0px 8px 10px -5px rgba(0,0,0,0.2), 0px 16px 24px 2px rgba(0,0,0,0.14), 0px 6px 30px 5px rgba(0,0,0,0.12)`,
+            left: '50%',
+            top: '20px',
+            borderRadius: '12px',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            padding: '10px'
+          }}
+        >
+          <Typography variant={'h5'}>Loading...</Typography>
+        </Box>
+      )}
       {/* header */}
       <AppBar
         enableColorOnDark

@@ -11,21 +11,31 @@ import themes from 'themes';
 
 // project imports
 import NavigationScroll from 'layout/NavigationScroll';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { SearchCtxProvider } from 'context/SearchCtx';
+import { LoadingCtxProvider } from 'context/LoadingCtx';
 
 // ==============================|| APP ||============================== //
 
 const App = () => {
   const customization = useSelector((state) => state.customization);
+  const queryClient = new QueryClient();
 
   return (
-    <StyledEngineProvider injectFirst>
-      <ThemeProvider theme={themes(customization)}>
-        <CssBaseline />
-        <NavigationScroll>
-          <Routes />
-        </NavigationScroll>
-      </ThemeProvider>
-    </StyledEngineProvider>
+    <QueryClientProvider client={queryClient}>
+      <SearchCtxProvider>
+        <LoadingCtxProvider>
+          <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={themes(customization)}>
+              <CssBaseline />
+              <NavigationScroll>
+                <Routes />
+              </NavigationScroll>
+            </ThemeProvider>
+          </StyledEngineProvider>
+        </LoadingCtxProvider>
+      </SearchCtxProvider>
+    </QueryClientProvider>
   );
 };
 
